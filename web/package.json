@@ -1,5 +1,5 @@
 {
-  "name": "github-ci-cd-dashborad-web",
+  "name": "github-ci-cd-dashboard-web",
   "private": true,
   "type": "module",
   "scripts": {

@@ -124,7 +124,14 @@ export default function RunDetail() {
               <tbody>
                 {jobs.map((job) => (
                   <Fragment key={job.id}>
-                    <tr key={job.id} className="clickable-row" onClick={() => void toggleJob(job.id)}>
+                    <tr
+                      key={job.id}
+                      className="clickable-row"
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => void toggleJob(job.id)}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") void toggleJob(job.id); }}
+                    >
                       <td>{job.name}</td>
                       <td><span className={badgeClass(job.status)}>{statusLabel(job.status)}</span></td>
                       <td><span className={badgeClass(job.conclusion)}>{statusLabel(job.conclusion)}</span></td>
