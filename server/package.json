@@ -1,0 +1,21 @@
+{
+  "name": "github-ci-cd-dashboard-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "db:migrate:local": "wrangler d1 migrations apply github-actions-dashboard --local",
+    "db:migrate": "wrangler d1 migrations apply github-actions-dashboard --remote"
+  },
+  "dependencies": {
+    "hono": "^4.10.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260424.1",
+    "typescript": "^5.9.2",
+    "wrangler": "^4.85.0"
+  }
+}
