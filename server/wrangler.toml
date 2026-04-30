@@ -1,0 +1,11 @@
+name = "github-actions-dashboard-server"
+main = "src/index.ts"
+compatibility_date = "2026-04-28"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "github-actions-dashboard"
+database_id = "00000000-0000-0000-0000-000000000000"
+
+[vars]
+GITHUB_API_BASE_URL = "https://api.github.com"
