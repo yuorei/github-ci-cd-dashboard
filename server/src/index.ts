@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: (origin, c) => {
       const allowedOrigin = c.env.ALLOWED_ORIGIN;
-      if (!allowedOrigin) return origin;
+      if (!allowedOrigin) return "";
       return origin === allowedOrigin ? origin : "";
     },
     allowHeaders: ["Content-Type", "Authorization"],

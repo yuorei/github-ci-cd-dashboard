@@ -29,7 +29,7 @@ export async function getRepositoryById(db: D1Database, id: number) {
 
 export async function getRepositoryByFullName(db: D1Database, owner: string, repo: string) {
   return db
-    .prepare("SELECT * FROM repositories WHERE lower(owner) = lower(?) AND lower(repo) = lower(?)")
+    .prepare("SELECT * FROM repositories WHERE owner = ? COLLATE NOCASE AND repo = ? COLLATE NOCASE")
     .bind(owner, repo)
     .first<RepositoryRow>();
 }

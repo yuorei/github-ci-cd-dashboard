@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS repositories (
   is_active INTEGER NOT NULL DEFAULT 1,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
-  UNIQUE(owner, repo)
+  UNIQUE(owner COLLATE NOCASE, repo COLLATE NOCASE)
 );
 
 CREATE TABLE IF NOT EXISTS workflow_runs (

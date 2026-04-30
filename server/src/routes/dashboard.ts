@@ -11,11 +11,11 @@ dashboardRoute.get("/summary", async (c) => {
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   const [repositoryCount, runningCount, failedCount, success24h, failure24h, averageDuration24h] = await c.env.DB.batch([
     c.env.DB.prepare("SELECT COUNT(*) AS count FROM repositories WHERE is_active = 1"),
-    c.env.DB.prepare("SELECT COUNT(*) AS count FROM workflow_runs WHERE status IN ('queued', 'in_progress')"),
-    c.env.DB.prepare("SELECT COUNT(*) AS count FROM workflow_runs WHERE status = 'completed' AND conclusion = 'failure'"),
-    c.env.DB.prepare("SELECT COUNT(*) AS count FROM workflow_runs WHERE conclusion = 'success' AND completed_at >= ?").bind(since),
-    c.env.DB.prepare("SELECT COUNT(*) AS count FROM workflow_runs WHERE conclusion = 'failure' AND completed_at >= ?").bind(since),
-    c.env.DB.prepare("SELECT AVG(duration_seconds) AS value FROM workflow_runs WHERE completed_at >= ? AND duration_seconds IS NOT NULL").bind(since),
+    c.env.DB.prepare("SELECT COUNT(*) AS count FROM workflow_runs wr JOIN repositories r ON r.id = wr.repository_id WHERE r.is_active = 1 AND wr.status IN ('queued', 'in_progress')"),
+    c.env.DB.prepare("SELECT COUNT(*) AS count FROM workflow_runs wr JOIN repositories r ON r.id = wr.repository_id WHERE r.is_active = 1 AND wr.status = 'completed' AND wr.conclusion = 'failure'"),
+    c.env.DB.prepare("SELECT COUNT(*) AS count FROM workflow_runs wr JOIN repositories r ON r.id = wr.repository_id WHERE r.is_active = 1 AND wr.conclusion = 'success' AND wr.completed_at >= ?").bind(since),
+    c.env.DB.prepare("SELECT COUNT(*) AS count FROM workflow_runs wr JOIN repositories r ON r.id = wr.repository_id WHERE r.is_active = 1 AND wr.conclusion = 'failure' AND wr.completed_at >= ?").bind(since),
+    c.env.DB.prepare("SELECT AVG(wr.duration_seconds) AS value FROM workflow_runs wr JOIN repositories r ON r.id = wr.repository_id WHERE r.is_active = 1 AND wr.completed_at >= ? AND wr.duration_seconds IS NOT NULL").bind(since),
   ]);
 
   const repositoryCountRow = repositoryCount.results[0] as CountRow | undefined;
